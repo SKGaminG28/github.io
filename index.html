@@ -6,7 +6,7 @@
 <div id="smart-button-container">
       <div style="text-align: center;">
         <div style="margin-bottom: 1.25rem;">
-          <p></p>
+          <p>Proxy List</p>
           <select id="item-options"><option value="Very Small" price="1">Very Small - 1 USD</option><option value="Small" price="3">Small - 3 USD</option><option value="Medium" price="5">Medium - 5 USD</option><option value="Large" price="10">Large - 10 USD</option><option value="Very Large" price="15">Very Large - 15 USD</option><option value="Max" price="20">Max - 20 USD</option></select>
           <select style="visibility: hidden" id="quantitySelect"></select>
         </div>
@@ -23,14 +23,14 @@
     if (!isNaN(quantity)) {
       quantitySelect.style.visibility = "visible";
     }
-    var orderDescription = '';
+    var orderDescription = 'Proxy List';
     if(orderDescription === '') {
       orderDescription = 'Item';
     }
     paypal.Buttons({
       style: {
         shape: 'pill',
-        color: 'silver',
+        color: 'gold',
         layout: 'vertical',
         label: 'paypal',
         
@@ -84,18 +84,8 @@
         });
       },
       onApprove: function(data, actions) {
-        return actions.order.capture().then(function(orderData) {
-          
-          // Full available details
-          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-
-          // Show a success message within this page, e.g.
-          const element = document.getElementById('paypal-button-container');
-          element.innerHTML = '';
-          element.innerHTML = '<h3>Thank you for your payment!</h3>';
-
-          // Or go to another URL:  actions.redirect('thank_you.html');
-
+        return actions.order.capture().then(function(details) {
+          alert('Transaction completed by ' + details.payer.name.given_name + '!');
         });
       },
       onError: function(err) {
